@@ -1,5 +1,5 @@
 {
-  "name": "e-commerce",
+  "name": "e-microservices-commerce",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Dev-Elie/E-commerce-Microservice.git"
+    "url": "git+https://github.com/nadhigadhavitechnostacks/e-com-microservices.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Dev-Elie/E-commerce-Microservice/issues"
+    "url": "https://github.com/nadhigadhavitechnostacks/e-com-microservices.git"
   },
-  "homepage": "https://github.com/Dev-Elie/E-commerce-Microservice#readme",
+  "homepage": "https://github.com/nadhigadhavitechnostacks/e-com-microservices#Readme",
   "dependencies": {
     "jsonwebtoken": "^8.5.1"
   }
