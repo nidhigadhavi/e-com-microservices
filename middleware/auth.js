@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 
 const auth = (req, res, next) => {
+    console.log("into the aauth middleware");
     const token = req.header('x-auth-token');
     if (!token) {
         return res.status(401).json({ msg: 'No token, authorization denied' });

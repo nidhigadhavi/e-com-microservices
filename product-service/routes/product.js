@@ -8,15 +8,17 @@ var order, channel, connection;
 
 // RabbitMQ connection
 async function connectToRabbitMQ() {
-  const amqpServer = "amqp://guest:guest@localhost:5672";
+  const amqpServer = "amqps://kydjgoop:36uhKqPFFNPhrQnyNHKycEuw5DKe4GYd@shrimp.rmq.cloudamqp.com/kydjgoop";
   connection = await amqp.connect(amqpServer);
   channel = await connection.createChannel();
+  console.log("channel create channel : product-service-queue");
   await channel.assertQueue("product-service-queue");
 }
 connectToRabbitMQ();
 
 // Create a new product
 router.post("/", auth, async (req, res) => {
+  console.log("into create nw product");
   const { name, price, description } = req.body;
   // verify if name and price are not empty
   if (!name || !price || !description) {
@@ -37,7 +39,7 @@ router.post("/buy", auth, async (req, res) => {
   const { productIds } = req.body;
   // Get products from database with the given ids
   const products = await Product.find({ _id: { $in: productIds } });
-
+  console.log("send to order service");
   // Send to RabbitMQ
   channel.sendToQueue(
     "order-service-queue",
@@ -51,7 +53,7 @@ router.post("/buy", auth, async (req, res) => {
 
   // Consume from RabbitMQ
   channel.consume("product-service-queue", (data) => {
-    console.log("Consumed from product-service-queue");
+    console.log("Consume from product-service-queue");
     order = JSON.parse(data.content);
     channel.ack(data);
   });
