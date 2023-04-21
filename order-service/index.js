@@ -19,15 +19,13 @@ mongoose
 
 // RabbitMQ connection
 async function connectToRabbitMQ() {
-  const amqpServer = "amqps://kydjgoop:36uhKqPFFNPhrQnyNHKycEuw5DKe4GYd@shrimp.rmq.cloudamqp.com/kydjgoop";
+  const amqpServer = "amqp://guest:guest@localhost:5672";
   connection = await amqp.connect(amqpServer);
   channel = await connection.createChannel();
-  console.log("channel create channel : order-service-queue");
   await channel.assertQueue("order-service-queue");
 }
 
 createOrder = (products, userEmail) => {
-  console.log("intot the create order");
   let total = 0;
   products.forEach((product) => {
     total += product.price;
@@ -41,16 +39,13 @@ createOrder = (products, userEmail) => {
   order.save();
   return order;
 };
-console.log("Order service");
+
 connectToRabbitMQ().then(() => {
-  console.log("into the connect rabbitMQ Order Service ::");
   channel.consume("order-service-queue", (data) => {
-    console.log("inot order service consume" , data);
     // order service queue listens to this queue
     const { products, userEmail } = JSON.parse(data.content);
     const newOrder = createOrder(products, userEmail);
     channel.ack(data);
-    console.log("into the create order ACK::::");
     channel.sendToQueue(
       "product-service-queue",
       Buffer.from(JSON.stringify(newOrder))
