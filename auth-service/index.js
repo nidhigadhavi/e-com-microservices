@@ -1,14 +1,12 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 7000;
 const mongoose = require('mongoose');
 const authRouter = require('./routes/auth');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/auth', authRouter);
-
-
 
 mongoose.connect(
     'mongodb://0.0.0.0:27017/auth-service',

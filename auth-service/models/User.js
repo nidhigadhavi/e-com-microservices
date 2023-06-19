@@ -16,10 +16,12 @@ const UserSchema = new Schema({
         required: true,
         unique: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    mobile:{
+        type:Number,
+        unique: true
     }
-});
+},{
+    timestamps: true
+  });
 
 module.exports = mongoose.model('User', UserSchema);
